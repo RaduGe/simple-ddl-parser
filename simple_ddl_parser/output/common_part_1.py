@@ -25,11 +25,8 @@ def get_table_from_tables_data(tables_dict: Dict, table_id: Tuple[str, str]) -> 
     """get table by name and schema or rise exception"""
     target_table = tables_dict.get(table_id)
     if target_table is None:
-        target_table = init_table_data()
-        target_table["table_name"] = table_id[0]
-        target_table["schema"] = table_id[1]
-        # remembering a new sort of dummy table
-        tables_dict[(target_table["table_name"], target_table["schema"])] = target_table
+        # returning empty dict ("table")
+        return init_table_data()
     return target_table
 
 
@@ -179,22 +176,9 @@ def result_format(
     for table in result:
         # process each item in parser output
         if "index_name" in table or "alter_table_name" in table:
-            # trying to see if a new table is added (see logic in get_table_from_tables_data)
-            # i didn't test it with indexes too
-            # only test beside the one given was to replace "grades" with "test" in <ALTER TABLE grades ADD CONSTRAINT>
-            #   seems to work even if it's a "known" tbl
-            _previous_nr_of_tables = len(tables_dict.keys())
             tables_dict = process_alter_and_index_result(
                 tables_dict, table, output_mode
             )
-
-            if len(tables_dict.keys()) > _previous_nr_of_tables:
-                # a new table was added, have to process it
-                table_id = (table["alter_table_name"], table["schema"])
-                # getting "new" details
-                table = tables_dict.get(table_id)
-                table_data = process_entities(tables_dict, table, output_mode)
-                final_result.append(table_data)
         else:
             # process tables, types, sequence and etc. data
             table_data = process_entities(tables_dict, table, output_mode)
