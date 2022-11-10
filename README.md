@@ -1,3 +1,9 @@
+## How to run
+in simple_ddl_parser/ : pip install .
+python3 own_test.py
+
+runs by default with part2 of task, just rename simple_ddl_parser/output/common_part_1.py to simple_ddl_parser/output/common.py (and the same to revert to part 2)
+
 ## Simple DDL Parser
 
 ![badge1](https://img.shields.io/pypi/v/simple-ddl-parser) ![badge2](https://img.shields.io/pypi/l/simple-ddl-parser) ![badge3](https://img.shields.io/pypi/pyversions/simple-ddl-parser) ![workflow](https://github.com/xnuinside/simple-ddl-parser/actions/workflows/main.yml/badge.svg)
